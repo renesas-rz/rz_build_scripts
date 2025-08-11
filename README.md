@@ -4,16 +4,30 @@
 * The following boards are supported:
 
 <table cellpadding=2 border=1 style="border:1px solid black; border-collapse: collapse;">
-<tr><th>SoC</th><th>Board</th><th>BSP</th></tr>
-<tr><td>RZ/G2E</td><td>EK874</td><td>VLP64 1.x, VLP64 3.x</td></tr>
-<tr><td>RZ/G2M</td><td>HiHope</td><td>VLP64 1.x, VLP64 3.x</td></tr>
-<tr><td>RZ/G2N</td><td>HiHope</td><td>VLP64 1.x, VLP64 3.x</td></tr>
-<tr><td>RZ/G2H</td><td>HiHope</td><td>VLP64 1.x, VLP64 3.x</td></tr>
-<tr><td>RZ/G2L</td><td>SMARC</td><td>RZ/G2L BSP 1.x, VLP64 3.x</td></tr>
-<tr><td>RZ/G2LC</td><td>SMARC</td><td>RZ/G2L BSP 1.x, VLP64 3.x</td></tr>
-<tr><td>RZ/G2UL</td><td>SMARC</td><td>RZ/G2L BSP 1.x, VLP64 3.x</td></tr>
-<tr><td>RZ/V2L</td><td>SMARC</td><td>RZ/V2L BSP 1.x</td></tr>
-<tr><td>RZ/G3S</td><td>SMARC</td><td>RZ/G3S BSP 1.x</td></tr>
+<tr><th>Series</th><th>SoC</th><th>Board</th><th>BSP</th></tr>
+<tr>
+    <td rowspan=2>RZ/G3 Series</td>
+</tr>
+    <tr><td>RZ/G3S</td><td>smarc-rzg3s</td><td>VLP 3.x</td></tr>
+<tr>
+    <td rowspan=8>RZ/G2 Series</td>
+</tr>
+    <tr><td>RZ/G2H</td><td>hihope-rzg2h</td><td>VLP 3.x</td></tr>
+    <tr><td>RZ/G2M</td><td>hihope-rzg2m</td><td>VLP 3.x</td></tr>
+    <tr><td>RZ/G2N</td><td>hihope-rzg2n</td><td>VLP 3.x</td></tr>
+    <tr><td>RZ/G2E</td><td>ek874</td><td>VLP 3.x</td></tr>
+    <tr><td>RZ/G2L</td><td>smarc-rzg2l</td><td>VLP 3.x</td></tr>
+    <tr><td>RZ/G2LC</td><td>smarc-rzg2lc</td><td>VLP 3.x</td></tr>
+    <tr><td>RZ/G2UL</td><td>smarc-rzg2ul</td><td>VLP 3.x</td></tr>
+<tr>
+    <td rowspan=3>RZ/V Series</td>
+</tr>
+    <tr><td>RZ/V2H</td><td>rzv2h-evk-ver1</td><td> </td></tr>
+    <tr><td>RZ/V2L</td><td>smarc-rzv2l</td><td></td></tr> 
+<tr>
+    <td rowspan=2>RZ/T Series</td></td>
+</tr>
+    <tr><td>RZ/V2L</td><td>dev-rzt2h</td><td> </td></tr>
 </table>
 
 ## Repository Installs

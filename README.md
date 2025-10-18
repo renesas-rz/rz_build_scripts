@@ -20,14 +20,15 @@
     <tr><td>RZ/G2LC</td><td>smarc-rzg2lc</td><td>VLP 3.x</td></tr>
     <tr><td>RZ/G2UL</td><td>smarc-rzg2ul</td><td>VLP 3.x</td></tr>
 <tr>
-    <td rowspan=3>RZ/V Series</td>
+    <td rowspan=4>RZ/V Series</td>
 </tr>
     <tr><td>RZ/V2H</td><td>rzv2h-evk-ver1</td><td> </td></tr>
+    <tr><td>RZ/V2N</td><td>rzv2n-evk</td><td> </td></tr>
     <tr><td>RZ/V2L</td><td>smarc-rzv2l</td><td></td></tr> 
 <tr>
     <td rowspan=2>RZ/T Series</td></td>
 </tr>
-    <tr><td>RZ/V2L</td><td>dev-rzt2h</td><td> </td></tr>
+    <tr><td>RZ/T2H</td><td>dev-rzt2h</td><td> </td></tr>
 </table>
 
 ## Repository Installs

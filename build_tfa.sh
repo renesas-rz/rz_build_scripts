@@ -58,7 +58,7 @@ if [ "$TFA_DEBUG" == "" ] ; then
 fi
 if [ "$TFA_FIP" == "" ] ; then
 
-  if [ "$MACHINE" == "smarc-rzg2l" ] || [ "$MACHINE" == "smarc-rzg2lc" ] || [ "$MACHINE" == "smarc-rzv2l" ] || [ "$MACHINE" == "smarc-rzg2ul" ] || [ "$MACHINE" == "smarc-rzg3s" ] || ["$MACHINE" == "dev-rzt2h" ] || [ "$MACHINE" == "rzv2h-evk-ver1" ] || [ "$MACHINE" == "rzv2n-evk" ] ; then
+  if [ "$MACHINE" == "smarc-rzg2l" ] || [ "$MACHINE" == "smarc-rzg2lc" ] || [ "$MACHINE" == "smarc-rzv2l" ] || [ "$MACHINE" == "smarc-rzg2ul" ] || [ "$MACHINE" == "smarc-rzg3s" ] || ["$MACHINE" == "rzt2h-dev" ] || [ "$MACHINE" == "rzv2h-evk-ver1" ] || [ "$MACHINE" == "rzv2n-evk" ] ; then
     TFA_FIP=1
   else
     TFA_FIP=0
@@ -640,7 +640,7 @@ case "$MACHINE" in
     TFA_OPT="BOARD=smarc"
     ;;
 
-  "dev-rzt2h")
+  "rzt2h-dev")
     TFA_OPT="BOARD=dev_1 PLATFORM_CORE_COUNT=4 BL33=$OUT_DIR/u-boot.bin bl2 fip pkg"
     ;;
   "rzv2h-evk-ver1")
@@ -736,7 +736,7 @@ fi
 CMD="make -j $BUILD_THREADS bl2 bl31 ${TOOL} PLAT=${PLATFORM} ${TFA_OPT} RZG_DRAM_ECC_FULL=${TFA_ECC_FULL} LOG_LEVEL=$TFA_LOG_LEVEL ${ADD_DEBUG} \
 	MBEDTLS_DIR=$MBEDTLS_DIR \
 	$1 $2 $3"
-if [ "$MACHINE" == "dev-rzt2h" ] ; then
+if [ "$MACHINE" == "rzt2h-dev" ] ; then
   CMD="make -j 1 PLAT=t2h BOARD=dev_1 PLATFORM_CORE_COUNT=4 BL33=$OUT_DIR/u-boot.bin bl2 fip pkg"
 elif [ "$MACHINE" == "rzv2h-evk" ] || [ "$MACHINE" == "rzv2n-evk" ] ; then
   CMD="make -j $BUILD_THREADS bl31 bl2 fip ${TOOL} PLAT=${PLATFORM} ${TFA_OPT} BL33=$OUT_DIR/u-boot.bin" LOG_LEVEL=$TFA_LOG_LEVEL ${ADD_DEBUG}
@@ -752,7 +752,7 @@ if [ ! -e "build/${PLATFORM}/$BUILD_DIR/bl2/bl2.elf" ] ; then
 fi
 
 # FIP build
-if [ "$TFA_FIP" == "1" ] &&  [ "$MACHINE" != "dev-rzt2h" ] ; then
+if [ "$TFA_FIP" == "1" ] &&  [ "$MACHINE" != "rzt2h-dev" ] ; then
   if [ "$MPU" == "RZG3S" ] || [ "$MPU" == "RZV2H" ] || [ "$MPU" == "RZV2N" ]  ; then
     create_bootparams_bptool
   else
@@ -764,7 +764,7 @@ if [ "$TFA_FIP" == "1" ] &&  [ "$MACHINE" != "dev-rzt2h" ] ; then
   exit
 fi
 
-if [ "$MACHINE" != "dev-rzt2h" ] ; then
+if [ "$MACHINE" != "rzt2h-dev" ] ; then
 # Copy files to deploy folder
 DEPLOYDIR=z_deploy
 mkdir -p $DEPLOYDIR
@@ -823,7 +823,7 @@ fi
 
 else
 
-#if [ "$MACHINE" == "dev-rzt2h" ] ; then   #/dev-t2h
+#if [ "$MACHINE" == "rzt2h-dev" ] ; then   #/dev-t2h
 # Save what build this was
 CURRENT_BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 echo "Built from branch \"$CURRENT_BRANCH\"" > $OUT_DIR/t2h-build_version.txt

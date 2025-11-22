@@ -32,7 +32,7 @@ if [ "$MACHINE" == "smarc-rzg2lc" ]   ; then BSP_TYPE="RZG2L" ; DTB="r9a07g044c2
 if [ "$MACHINE" == "smarc-rzg2ul" ]   ; then BSP_TYPE="RZG2L" ; DTB="r9a07g043u11-smarc.dtb" ; fi
 if [ "$MACHINE" == "smarc-rzv2l" ]    ; then BSP_TYPE="RZV2L" ; DTB="r9a07g054l2-smarc.dtb" ; fi
 if [ "$MACHINE" == "smarc-rzg3s" ]    ; then BSP_TYPE="RZG3S" ; DTB="r9a08g045s33-smarc.dtb" ; fi
-if [ "$MACHINE" == "dev-rzt2h" ]      ; then BSP_TYPE="RZT2H" ; DTB="r9a09g077m44-dev.dtb" ; fi
+if [ "$MACHINE" == "rzt2h-dev" ]      ; then BSP_TYPE="RZT2H" ; DTB="r9a09g077m44-dev.dtb" ; fi
 if [ "$MACHINE" == "rzv2h-evk-ver1" ] ; then BSP_TYPE="RZV2H" ; DTB="r9a09g057h4-evk-ver1.dtb" ; fi
 
 do_toolchain_menu() {

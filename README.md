@@ -28,7 +28,7 @@
 <tr>
     <td rowspan=2>RZ/T Series</td></td>
 </tr>
-    <tr><td>RZ/T2H</td><td>dev-rzt2h</td><td> </td></tr>
+    <tr><td>RZ/T2H</td><td>rzt2h-dev</td><td> </td></tr>
 </table>
 
 ## Repository Installs

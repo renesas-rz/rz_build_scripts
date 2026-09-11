@@ -18,13 +18,14 @@
 # MACHINE=rzv2h-evk-ver1
 # MACHINE=rzv2n-evk
 # MACHINE=smarc-rzg3e
+# MACHINE=smarc-rzg3l
 
 #TFA_BOOT: 0=SPI Flash, 1=eMMC
 #TFA_ECC_FULL: 0=no ECC, 1=ECC dual channel, 2=ECC single channel
 #TFA_FIP: 0=no FIP, 1= yes FIP
 
 # Supported MPU
-# RZG2H, RZG2N, RZG2M, RZG2E, RZG2L, RZG2LC, RZG2UL, RZV2L, RZG3S, RZT2H, RZV2H, RZV2N, RZ/G3E
+# RZG2H, RZG2N, RZG2M, RZG2E, RZG2L, RZG2LC, RZG2UL, RZV2L, RZG3S, RZT2H, RZV2H, RZV2N, RZ/G3E, RZ/G3L
 
 # Read in functions from build_common.sh
 if [ ! -e build_common.sh ] ; then
@@ -59,7 +60,16 @@ if [ "$TFA_DEBUG" == "" ] ; then
 fi
 if [ "$TFA_FIP" == "" ] ; then
 
-  if [ "$MACHINE" == "smarc-rzg2l" ] || [ "$MACHINE" == "smarc-rzg2lc" ] || [ "$MACHINE" == "smarc-rzv2l" ] || [ "$MACHINE" == "smarc-rzg2ul" ] || [ "$MACHINE" == "smarc-rzg3s" ] || ["$MACHINE" == "rzt2h-dev" ] || [ "$MACHINE" == "rzv2h-evk-ver1" ] || [ "$MACHINE" == "rzv2n-evk" ] || [ "$MACHINE" == "smarc-rzg3e" ]; then
+  if [[ "$MACHINE" == "smarc-rzg2l"   ||
+      "$MACHINE" == "smarc-rzg2lc"    ||
+      "$MACHINE" == "smarc-rzv2l"     ||
+      "$MACHINE" == "smarc-rzg2ul"    ||
+      "$MACHINE" == "smarc-rzg3s"     ||
+      "$MACHINE" == "rzt2h-dev"       ||
+      "$MACHINE" == "rzv2h-evk-ver1"  ||
+      "$MACHINE" == "rzv2n-evk"       ||
+      "$MACHINE" == "smarc-rzg3e"     ||
+      "$MACHINE" == "smarc-rzg3l"     ]]; then
     TFA_FIP=1
   else
     TFA_FIP=0
@@ -181,7 +191,11 @@ do_debug_menu() {
         make
         cd ../../..
       fi
-
+      if [ "$PLATFORM" == "g3l" ] ; then 
+        cd tools/renesas/rz_boot_param
+        make
+        cd ../../..
+      fi
       if [ "$TFA_DEBUG" == "1" ] ; then
         cd build/${PLATFORM}/debug
       else
@@ -206,6 +220,14 @@ do_debug_menu() {
 
       if [ "$PLATFORM" == "g3e" ] ; then 
         ../../../tools/renesas/bptool bl2.bin bootparams.bin 0x08004000 $BMODE
+        if [ "bl2.bin" -nt "bl2_bp.bin" ] || [ ! -e "bl2_bp.bin" ] ; then
+          echo -e "\n[Adding bootparams.bin to bl2.bin]"
+          cat bootparams.bin bl2.bin > bl2_bp.bin
+        fi
+      fi
+
+      if [ "$PLATFORM" == "g3l" ] ; then 
+        ../../../tools/renesas/bptool bl2.bin bootparams.bin 0x23000 $BMODE
         if [ "bl2.bin" -nt "bl2_bp.bin" ] || [ ! -e "bl2_bp.bin" ] ; then
           echo -e "\n[Adding bootparams.bin to bl2.bin]"
           cat bootparams.bin bl2.bin > bl2_bp.bin
@@ -302,6 +324,8 @@ create_fip_and_copy() {
   DEFAULT_FIP_VMA="0x00000000"
   G3E_BL2_ADJUST_VMA="0x08003600"
   G3E_FIP_ADJUST_VMA="0x0000"
+  G3L_BL2_ADJUST_VMA="0x21E00"
+  G3L_FIP_ADJUST_VMA="0x0000"
   
   #<BL2>
   if [ "$MPU" == "RZG3S" ] ; then
@@ -313,6 +337,9 @@ create_fip_and_copy() {
   elif [ "$MPU" == "RZG3E" ] ; then
     echo -e "[Create srec for G3E]"
     ${CROSS_COMPILE}objcopy -I binary -O srec --adjust-vma=${G3E_BL2_ADJUST_VMA} --srec-forceS3 build/${PLATFORM}/$BUILD_DIR/bl2_bp.bin $OUT_DIR/bl2_bp_${BMODE}-${MACHINE}${EXTRA}.srec
+  elif [ "$MPU" == "RZG3L" ] ; then
+    echo -e "[Create srec for G3L]"
+    ${CROSS_COMPILE}objcopy -I binary -O srec --adjust-vma=${G3L_BL2_ADJUST_VMA} --srec-forceS3 build/${PLATFORM}/$BUILD_DIR/bl2_bp.bin $OUT_DIR/bl2_bp_${BMODE}-${MACHINE}${EXTRA}.srec
   else
     ${CROSS_COMPILE}objcopy -I binary -O srec --adjust-vma=${DEFAULT_BL2_VMA} --srec-forceS3 build/${PLATFORM}/$BUILD_DIR/bl2_bp.bin $OUT_DIR/bl2_bp-${MACHINE}${EXTRA}.srec
   fi  
@@ -324,6 +351,9 @@ create_fip_and_copy() {
   elif  [ "$MPU" == "RZG3E" ] ; then
     echo -e "[Create FIP srec for ${MPU}]"
     ${CROSS_COMPILE}objcopy -I binary -O srec --adjust-vma=${G3E_FIP_ADJUST_VMA} --srec-forceS3 fip.bin $OUT_DIR/fip-${MACHINE}${EXTRA}.srec
+  elif  [ "$MPU" == "RZG3L" ] ; then
+    echo -e "[Create FIP srec for ${MPU}]"
+    ${CROSS_COMPILE}objcopy -I binary -O srec --adjust-vma=${G3L_FIP_ADJUST_VMA} --srec-forceS3 fip.bin $OUT_DIR/fip-${MACHINE}${EXTRA}.srec
   else
     ${CROSS_COMPILE}objcopy -I binary -O srec --adjust-vma=${DEFAULT_FIP_VMA} --srec-forceS3 fip.bin $OUT_DIR/fip-${MACHINE}${EXTRA}.srec
   fi
@@ -601,6 +631,10 @@ case "$MPU" in
     PLATFORM=g3e
     TOOL=
     ;;
+  "RZG3L")
+    PLATFORM=g3l
+    TOOL=
+    ;;
 esac
 
 # Board Settings
@@ -666,6 +700,10 @@ case "$MACHINE" in
     ;;
   
   "smarc-rzg3e")
+    TFA_OPT="BOARD=smarc"
+    ;;
+
+  "smarc-rzg3l")
     TFA_OPT="BOARD=smarc"
     ;;
 
@@ -782,7 +820,7 @@ fi
 
 # FIP build
 if [ "$TFA_FIP" == "1" ] &&  [ "$MACHINE" != "rzt2h-dev" ] ; then
-  if [ "$MPU" == "RZG3S" ] || [ "$MPU" == "RZV2H" ] || [ "$MPU" == "RZV2N" ] ||  [ "$MPU" == "RZG3E" ] ; then
+  if [ "$MPU" == "RZG3S" ] || [ "$MPU" == "RZV2H" ] || [ "$MPU" == "RZV2N" ] ||  [ "$MPU" == "RZG3E" ] || [ "$MPU" == "RZG3L" ] ; then
     create_bootparams_bptool
   else
     create_bootparams

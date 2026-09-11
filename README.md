@@ -6,9 +6,11 @@
 <table cellpadding=2 border=1 style="border:1px solid black; border-collapse: collapse;">
 <tr><th>Series</th><th>SoC</th><th>Board</th><th>BSP</th></tr>
 <tr>
-    <td rowspan=2>RZ/G3 Series</td>
+    <td rowspan=4>RZ/G3 Series</td>
 </tr>
     <tr><td>RZ/G3S</td><td>smarc-rzg3s</td><td>VLP 3.x</td></tr>
+    <tr><td>RZ/G3E</td><td>smarc-rzg3e</td><td>VLP 1.x</td></tr>
+    <tr><td>RZ/G3L</td><td>smarc-rzg3l</td><td>VLP 1.x</td></tr>
 <tr>
     <td rowspan=8>RZ/G2 Series</td>
 </tr>
